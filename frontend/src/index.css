@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.sign-in-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #6B46C1;
+  clip-path: path('M 0 0 H 100% V calc(50% - 10vw) A 10vw 10vw 0 1 0 100% calc(50% + 10vw) V 100% H 0 Z');
+}
