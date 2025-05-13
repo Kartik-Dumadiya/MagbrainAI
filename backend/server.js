@@ -1,71 +1,32 @@
-// Backend Structure for Node.js Authentication with MongoDB
-// server.js - Main server file
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const passport = require("passport");
+const cookieParser = require("cookie-parser");
+const authRoutes = require("./routes/authRoutes");
+require("./config/passport");
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const passport = require('passport');
-const session = require('express-session');
-const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const connectDB = require('./config/db');
-
-// Load env vars
-dotenv.config();
-
-// Connect to MongoDB
-connectDB();
-
-// Initialize app
 const app = express();
+const cors = require("cors");
 
+// Allow requests from frontend
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 // Middleware
 app.use(express.json());
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
-}));
-
-// Session middleware
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your_session_secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
-
-// Passport middleware
+app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session());
-
-// Initialize passport config
-require('./config/passport');
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use("/auth", authRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send({ message: 'Something went wrong!' });
-});
+// // Connect to MongoDB
+// mongoose
+//   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
-
-// Start server
+// Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

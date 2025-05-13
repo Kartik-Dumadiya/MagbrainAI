@@ -1,15 +1,19 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
 import { FaUser, FaBook, FaMicrophone, FaChartBar, FaCreditCard, FaKey, FaQuestionCircle } from "react-icons/fa";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const menuItems = [
-    { name: "Agents", icon: <FaUser /> },
-    { name: "Knowledge Base", icon: <FaBook /> },
-    { name: "Voice AI", icon: <FaMicrophone /> },
-    { name: "Analytics", icon: <FaChartBar /> },
-    { name: "Billing", icon: <FaCreditCard /> },
-    { name: "API Key", icon: <FaKey /> },
+    { name: "Agents", icon: <FaUser />, path: "/agents" },
+    { name: "Knowledge Base", icon: <FaBook />, path: "/knowledge-base" },
+    { name: "Voice AI", icon: <FaMicrophone />, path: "/voice-ai" },
+    { name: "Analytics", icon: <FaChartBar />, path: "/analytics" },
+    { name: "Billing", icon: <FaCreditCard />, path: "/billing" },
+    { name: "API Key", icon: <FaKey />, path: "/api-key" },
   ];
 
   return (
@@ -28,10 +32,16 @@ const Sidebar = () => {
           <motion.div
             whileHover={{ scale: 1.1 }}
             key={index}
-            className="p-4 hover:bg-gray-700 cursor-pointer flex items-center"
           >
-            <span className="mr-3">{item.icon}</span>
-            {item.name}
+            <Link
+              key={index}
+              to={item.path}
+              className={`p-4 flex items-center ${location.pathname === item.path ? "bg-gray-700" : "hover:bg-gray-700"
+                }`}
+            >
+              <span className="mr-3">{item.icon}</span>
+              {item.name}
+            </Link>
           </motion.div>
         ))}
       </div>
