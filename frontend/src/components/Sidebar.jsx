@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaUser, FaBook, FaMicrophone, FaChartBar, FaCreditCard, FaKey, FaQuestionCircle } from "react-icons/fa";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import profile from "../assets/profile.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const Sidebar = () => {
       <div className="p-4 border-t border-gray-700">
         <div className="flex items-center">
           <img
-            src="https://via.placeholder.com/40"
+            src={profile}
             alt="Profile"
             className="w-10 h-10 rounded-full mr-3"
           />

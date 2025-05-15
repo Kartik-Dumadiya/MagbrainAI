@@ -1,16 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import SignupForm from "../components/SignupForm";
-import OAuthButton from "../components/OAuthButton";
-import { FaGoogle, FaGithub, FaDropbox } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import googleLight from "../assets/google_light.png";
+import googleBold from "../assets/google_bold.png";
+import githubLight from "../assets/github_light.png";
+import githubBold from "../assets/github_bold.png";
+import dropboxLight from "../assets/dropbox_light.png";
+import dropboxBold from "../assets/dropbox_bold.png";
+import "../transition.css"; // Import CSS for transition
+
+const icons = [
+  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google" },
+  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub" },
+  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox" },
+];
 
 const SignupPage = () => {
+  const [hovered, setHovered] = useState(null);
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-r from-purple-500 to-blue-500">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden flex">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-r from-white to-blue-100">
+      <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl overflow-hidden flex h-[500px]">
+        {/* Right Section */}
+        <div className="w-1/2 gap-3 flex flex-col items-center justify-start p-15">
+          <h2 className="text-4xl font-bold mb-4 text-gray-800">Sign Up</h2>
+
+          <div className="flex space-x-4 mb-6">
+            {icons.map(({ id, light, bold, alt }) => (
+              <div
+                key={id}
+                onMouseEnter={() => setHovered(id)}
+                onMouseLeave={() => setHovered(null)}
+                className={`relative border border-gray-300 rounded-xl p-2 hover:border-gray-500 transition-colors duration-300 h-10 w-10 flex items-center justify-center cursor-pointer ${id === "github" && hovered === id ? "bg-black" : ""
+                  }`}
+              >
+                <img
+                  src={light}
+                  alt={alt}
+                  className={`object-contain transition-opacity ease-in-out ${hovered === id ? "hidden" : "opacity-100"
+                    }`}
+                />
+                <img
+                  src={bold}
+                  alt={alt}
+                  className={`object-contain transition-opacity duration-300 ease-in-out ${hovered === id ? "opacity-100" : "hidden"
+                    }`}
+                />
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-gray-500 mb-4">
+            or use your email for registration
+          </p>
+
+          {/* Signup Form */}
+          <SignupForm />
+        </div>
         {/* Left Section */}
-        <div className="w-1/2 bg-gradient-to-t from-blue-500 to-purple-500 text-white flex flex-col items-center justify-center p-8">
-          <h1 className="text-3xl font-bold">Welcome Back!</h1>
+        <div className="w-1/2 bg-[#5A55B1] text-white flex flex-col items-center justify-center p-8 rounded-l-[100px] h-full">
+          <h1 className="text-5xl font-bold">Welcome Back!</h1>
           <p className="mt-4 text-center">
             Already have an account?{" "}
             <Link
@@ -21,26 +69,8 @@ const SignupPage = () => {
             </Link>
           </p>
         </div>
-
-        {/* Right Section */}
-        <div className="w-1/2 p-8">
-          <h2 className="text-2xl font-bold mb-4">Create Account</h2>
-
-          {/* OAuth Buttons */}
-          <div className="flex space-x-4 mb-6">
-            <OAuthButton icon={<FaGoogle />} label="Google" />
-            <OAuthButton icon={<FaGithub />} label="GitHub" />
-            <OAuthButton icon={<FaDropbox />} label="Dropbox" />
-          </div>
-
-          <p className="text-center text-gray-500 mb-4">
-            or use your email for registration
-          </p>
-
-          {/* Signup Form */}
-          <SignupForm />
-        </div>
       </div>
+
     </div>
   );
 };
