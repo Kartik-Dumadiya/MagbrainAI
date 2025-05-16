@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import KnowledgeBasePage from "./pages/KnowledgeBasePage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from './pages/SignupPage';
-import AuthPage from "./pages/AuthPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -14,7 +14,6 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/auth" element={<AuthPage />} />
         {/* Private Routes (Wrapped in Layout) */}
         <Route path="/" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
@@ -24,6 +23,7 @@ const App = () => {
           <Route path="analytics" element={<Dashboard />} />
           <Route path="billing" element={<Dashboard />} />
           <Route path="api-key" element={<Dashboard />} />
+          <Route path="profile" element={<ProfilePage />} />
           {/* Add more routes here */}
         </Route>
 

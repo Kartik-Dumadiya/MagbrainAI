@@ -50,8 +50,10 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token");
-  req.logout && req.logout();
+  // Provide the same options as when you set the cookie
+  res.clearCookie("token", { httpOnly: true, sameSite: "lax" });
+  // If using session-based passport, uncomment next line
+  // req.logout && req.logout();
   res.status(200).json({ message: "Logout successful" });
 };
 
@@ -62,4 +64,46 @@ export const oauthSuccess = (req, res) => {
   const token = generateToken(req.user);
   res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
   res.redirect("http://localhost:5173/dashboard?oauth=success");
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json({ user });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  const { name, company } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, company },
+      { new: true, runValidators: true }
+    ).select("-password");
+    res.json({ message: "Profile updated", user });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword)
+    return res.status(400).json({ error: "Fields are required" });
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user.password) return res.status(400).json({ error: "Password cannot be changed for social logins." });
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) return res.status(400).json({ error: "Old password is incorrect." });
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
