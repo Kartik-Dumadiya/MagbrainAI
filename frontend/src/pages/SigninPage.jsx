@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import SigninForm from "../components/SigninForm";
-import { Link } from "react-router-dom";
+import { href, Link } from "react-router-dom";
 import googleLight from "../assets/google_light.png";
 import googleBold from "../assets/google_bold.png";
 import githubLight from "../assets/github_light.png";
@@ -11,9 +11,9 @@ import "../transition.css"; // Import CSS for transition
 import { CSSTransition } from "react-transition-group";
 
 const icons = [
-  { id: "google", light: googleLight, bold: googleBold, alt: "Sign in with Google" },
-  { id: "github", light: githubLight, bold: githubBold, alt: "Sign in with GitHub" },
-  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign in with Dropbox" },
+  { id: "google", light: googleLight, bold: googleBold, alt: "Sign in with Google" ,href: "http://localhost:3000/auth/google"},
+  { id: "github", light: githubLight, bold: githubBold, alt: "Sign in with GitHub" , href: "http://localhost:3000/auth/github"},
+  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign in with Dropbox" , href: "http://localhost:3000/auth/dropbox"},
 ];
 
 const SigninPage = () => {
@@ -33,7 +33,7 @@ const SigninPage = () => {
         <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl overflow-hidden flex h-[500px]">
           {/* Left Section */}
           <div className="w-1/2 bg-[#5A55B1] text-white flex flex-col items-center justify-center p-8 rounded-r-[100px] h-full">
-            <h1 className="text-5xl font-bold">Hello, Friend!</h1>
+            <h1 className="text-5xl font-bold">Welcome Back !</h1>
             <p className="mt-4 text-center">
               Don't have an account?{" "}
               <Link
@@ -50,8 +50,9 @@ const SigninPage = () => {
             <h2 className="text-4xl font-bold mb-4 text-gray-800">Sign In</h2>
 
             <div className="flex space-x-4 mb-6">
-              {icons.map(({ id, light, bold, alt }) => (
+              {icons.map(({ id, light, bold, alt, href }) => (
                 <div
+                  onClick={() => window.open(href)}
                   key={id}
                   onMouseEnter={() => setHovered(id)}
                   onMouseLeave={() => setHovered(null)}
