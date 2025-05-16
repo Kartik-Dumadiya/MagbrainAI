@@ -7,12 +7,12 @@ import githubLight from "../assets/github_light.png";
 import githubBold from "../assets/github_bold.png";
 import dropboxLight from "../assets/dropbox_light.png";
 import dropboxBold from "../assets/dropbox_bold.png";
-import "../transition.css"; // Import CSS for transition
+import "../transition.css";
 
 const icons = [
-  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google" , href: "http://localhost:3000/auth/google" },
-  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub" , href: "http://localhost:3000/auth/github" },
-  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox" ,  href: "http://localhost:3000/auth/dropbox" },
+  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google", href: "http://localhost:3000/auth/google" },
+  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub", href: "http://localhost:3000/auth/github" },
+  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox", href: "http://localhost:3000/auth/dropbox" },
 ];
 
 const SignupPage = () => {
@@ -20,10 +20,8 @@ const SignupPage = () => {
   return (
     <div className="flex h-screen items-center justify-center bg-gradient-to-r from-white to-blue-100">
       <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl overflow-hidden flex h-[500px]">
-        {/* Right Section */}
         <div className="w-1/2 gap-3 flex flex-col items-center justify-start p-15">
           <h2 className="text-4xl font-bold mb-4 text-gray-800">Sign Up</h2>
-
           <div className="flex space-x-4 mb-6">
             {icons.map(({ id, light, bold, alt , href}) => (
               <div
@@ -49,29 +47,21 @@ const SignupPage = () => {
               </div>
             ))}
           </div>
-
           <p className="text-center text-gray-500 mb-4">
             or use your email for registration
           </p>
-
-          {/* Signup Form */}
           <SignupForm />
         </div>
-        {/* Left Section */}
         <div className="w-1/2 bg-[#5A55B1] text-white flex flex-col items-center justify-center p-8 rounded-l-[100px] h-full">
           <h1 className="text-5xl font-bold">Hello, Friends!</h1>
           <p className="mt-4 text-center">
             Already have an account?{" "}
-            <Link
-              to="/signin"
-              className="underline hover:text-blue-200 transition"
-            >
+            <Link to="/signin" className="underline hover:text-blue-200 transition">
               Sign In
             </Link>
           </p>
         </div>
       </div>
-
     </div>
   );
 };

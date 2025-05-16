@@ -1,42 +1,20 @@
-const express = require("express");
-const passport = require("passport");
-const { signup, login, logout } = require("../controllers/authController");
+import express from "express";
+import passport from "passport";
+import { signup, login, logout, oauthSuccess } from "../controllers/authController.js";
 
 const router = express.Router();
 
-// Local Signup and Login
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout);
 
-// Google OAuth
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/dashboard");
-  }
-);
+router.get("/google/secrets", passport.authenticate("google", { failureRedirect: "http://localhost:5173/signin" }), oauthSuccess);
 
-// GitHub OAuth
 router.get("/github", passport.authenticate("github", { scope: ["user:email"] }));
-router.get(
-  "/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/dashboard");
-  }
-);
+router.get("/github/callback", passport.authenticate("github", { failureRedirect: "http://localhost:5173/signin" }), oauthSuccess);
 
-// Dropbox OAuth
-router.get("/dropbox", passport.authenticate("dropbox"));
-router.get(
-  "/dropbox/callback",
-  passport.authenticate("dropbox", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/dashboard");
-  }
-);
+// router.get("/dropbox", passport.authenticate("dropbox"));
+// router.get("/dropbox/callback", passport.authenticate("dropbox", { failureRedirect: "http://localhost:5173/signin" }), oauthSuccess);
 
-module.exports = router;
+export default router;
