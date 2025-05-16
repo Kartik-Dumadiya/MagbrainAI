@@ -1,32 +1,34 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const passport = require("passport");
-const cookieParser = require("cookie-parser");
-const authRoutes = require("./routes/authRoutes");
-require("./config/passport");
+import "dotenv/config";
+import express from "express";
+import mongoose from "mongoose";
+import passport from "passport";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import cors from "cors";
+import authRoutes from "./routes/authRoutes.js";
+import "./config/passport.js";
 
 const app = express();
-const cors = require("cors");
 
-// Allow requests from frontend
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-// Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET || "TOPSECRETWORD",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+}));
 app.use(passport.initialize());
-
-// Routes
+app.use(passport.session());
 app.use("/auth", authRoutes);
 
-// // Connect to MongoDB
-// mongoose
-//   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log("Connected to MongoDB"))
-//   .catch((err) => console.error("MongoDB connection error:", err));
+mongoose
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
