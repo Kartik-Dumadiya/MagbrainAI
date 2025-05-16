@@ -58,7 +58,7 @@ const SignupPage = () => {
         </div>
         {/* Left Section */}
         <div className="w-1/2 bg-[#5A55B1] text-white flex flex-col items-center justify-center p-8 rounded-l-[100px] h-full">
-          <h1 className="text-5xl font-bold">Welcome Back!</h1>
+          <h1 className="text-5xl font-bold">Hello, Friends!</h1>
           <p className="mt-4 text-center">
             Already have an account?{" "}
             <Link
