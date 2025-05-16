@@ -98,11 +98,11 @@ app.get(
   })
 );
 
-function test(req,res,next){
-    console.log('Hello this is middleware testing the POST req for /auth/signin');
-    console.log(req.body.email);
-    console.log(req.body.password);
-    next()
+function test(req, res, next) {
+  console.log('Hello this is middleware testing the POST req for /auth/signin');
+  console.log(req.body.email);
+  console.log(req.body.password);
+  next()
 }
 
 app.post("/auth/signin", test, (req, res, next) => {
@@ -119,7 +119,7 @@ app.post("/auth/signin", test, (req, res, next) => {
 
 // cors
 app.post("/auth/signup", async (req, res) => {
-const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -152,9 +152,21 @@ passport.use(
       try {
         const user = await User.findOne({ email });
         if (user) {
-          bcrypt.compare(password, user.password, (err, valid) => {
-            if (err) return cb(err);
-            if (valid) return cb(null, user);
+          bcrypt.compare(password, user.password, (err, valid, invalid) => {
+            if (err) {
+              console.error("Error comparing passwords:", err);
+              return cb(err);
+            }
+            if (invalid) {
+              console.log("Invalid password");
+              return cb(null, false);
+            }
+            if (valid) {
+              console.log("User authenticated successfully");
+
+              return cb(null, user);
+            }
+            
             return cb(null, false);
           });
         } else {

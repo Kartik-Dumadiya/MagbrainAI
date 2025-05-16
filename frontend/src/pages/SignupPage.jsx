@@ -10,9 +10,9 @@ import dropboxBold from "../assets/dropbox_bold.png";
 import "../transition.css"; // Import CSS for transition
 
 const icons = [
-  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google" },
-  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub" },
-  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox" },
+  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google" , href: "http://localhost:3000/auth/google" },
+  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub" , href: "http://localhost:3000/auth/github" },
+  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox" ,  href: "http://localhost:3000/auth/dropbox" },
 ];
 
 const SignupPage = () => {
@@ -25,8 +25,9 @@ const SignupPage = () => {
           <h2 className="text-4xl font-bold mb-4 text-gray-800">Sign Up</h2>
 
           <div className="flex space-x-4 mb-6">
-            {icons.map(({ id, light, bold, alt }) => (
+            {icons.map(({ id, light, bold, alt , href}) => (
               <div
+                onClick={() => window.open(href, "_self")}
                 key={id}
                 onMouseEnter={() => setHovered(id)}
                 onMouseLeave={() => setHovered(null)}
