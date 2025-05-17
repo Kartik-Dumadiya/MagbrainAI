@@ -5,7 +5,6 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
-import fetch from "node-fetch";
 
 // Local Strategy
 passport.use(

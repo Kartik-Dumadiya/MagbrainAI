@@ -69,7 +69,13 @@ export const oauthSuccess = (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-    res.json({ user });
+    // Determine provider
+    let provider = "local";
+    if (user.googleId) provider = "google";
+    else if (user.githubId) provider = "github";
+    else if (user.dropboxId) provider = "dropbox";
+    // Send provider in user object
+    res.json({ user: { ...user.toObject(), provider } });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
