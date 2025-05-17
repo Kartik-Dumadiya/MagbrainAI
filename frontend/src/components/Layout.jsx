@@ -11,7 +11,7 @@ const Layout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Main Content (Dynamic) */}
-        <div className="p-4 flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
       </div>

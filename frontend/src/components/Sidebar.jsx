@@ -30,9 +30,9 @@ const Sidebar = () => {
 
   return (
     <motion.aside
-      initial={{ x: -250, opacity: 0 }}
+      initial={{ x: -10, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.55, type: "spring", stiffness: 80 }}
+      transition={{ duration: 0.40, type: "keyframes", stiffness: 80 }}
       className="w-64 min-w-64 bg-gradient-to-b from-[#212336] via-[#27293d] to-[#282f4b] text-white h-screen flex flex-col shadow-2xl sticky top-0 z-40"
       style={{ maxWidth: 260, minWidth: 260 }}
     >
