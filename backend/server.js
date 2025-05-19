@@ -7,6 +7,7 @@ import session from "express-session";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import "./config/passport.js";
+import agentRoutes from "./routes/agentRoutes.js"
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/auth", authRoutes);
+app.use("/agents", agentRoutes);
 
 mongoose
   .connect(process.env.MONGODB_URI, { })
