@@ -9,12 +9,11 @@ const Layout = () => {
       <Sidebar />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
         {/* Main Content (Dynamic) */}
         <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
-      </div>
+      
     </div>
   );
 };
