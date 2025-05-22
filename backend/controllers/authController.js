@@ -63,7 +63,7 @@ export const oauthSuccess = (req, res) => {
   }
   const token = generateToken(req.user);
   res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
-  res.redirect("http://localhost:5173/dashboard?oauth=success");
+  res.redirect("http://localhost:5173/agents?oauth=success");
 };
 
 export const getProfile = async (req, res) => {

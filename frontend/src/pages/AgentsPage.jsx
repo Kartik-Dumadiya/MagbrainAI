@@ -9,51 +9,8 @@ import { useUser } from "../context/UserContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Upload, Sparkles } from "lucide-react";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import { toast } from 'react-toastify';
 
-// Toast notification (inline, for demo)
-function Toast({ show, type, message }) {
-    if (!show) return null;
-    let color =
-        type === "success"
-            ? "bg-green-100 text-green-800 border-l-4 border-green-500"
-            : type === "warning"
-                ? "bg-yellow-100 text-yellow-800 border-l-4 border-yellow-500"
-                : type === "error"
-                    ? "bg-red-100 text-red-800 border-l-4 border-red-500"
-                    : "bg-blue-100 text-blue-800 border-l-4 border-blue-500";
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: -32 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -32 }}
-            className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-xl z-50 flex items-center min-w-[300px] ${color}`}
-        >
-            <div className="mr-3">
-                {type === "success" && (
-                    <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                )}
-                {type === "warning" && (
-                    <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1 4v2m0-6a6 6 0 110-12 6 6 0 010 12zm0 0a6 6 0 100-12 6 6 0 000 12z"></path>
-                    </svg>
-                )}
-                {type === "error" && (
-                    <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                )}
-                {type === "info" && (
-                    <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1 4v2m0-6a6 6 0 110-12 6 6 0 010 12zm0 0a6 6 0 100-12 6 6 0 000 12z"></path>
-                    </svg>
-                )}
-            </div>
-            <div className="text-sm font-medium">{message}</div>
-        </motion.div>
-    );
-}
 
 const AgentsPage = () => {
     const [agents, setAgents] = useState([]);
@@ -63,25 +20,15 @@ const AgentsPage = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [deleteModal, setDeleteModal] = useState({ open: false, agent: null });
 
-    // Toast state
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
-    const [toastType, setToastType] = useState("success");
 
-    // Toast notification
-    const showToastNotification = (message, type = "success") => {
-        setToastMessage(message);
-        setToastType(type);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3200);
-    };
+    
 
     // Open modal to create agent
     const handleCreateAgent = (type) => {
         if (["single-prompt", "multi-prompt", "conversation-flow"].includes(type)) {
             setTemplateModal({ open: true, agentType: type });
         } else {
-            showToastNotification("Custom LLM: show custom modal or redirect", "info");
+            toast.info("Custom LLM: show custom modal or redirect");
         }
     };
 
@@ -128,10 +75,10 @@ const AgentsPage = () => {
         try {
             const res = await axios.post("http://localhost:3000/agents", agentData, { withCredentials: true });
             const bot_id = res.data.agent.bot_id;
-            showToastNotification("Agent created!", "success");
+            toast.success("Agent created!");
             window.open(`/agent/${bot_id}`, "_blank");
         } catch (err) {
-            showToastNotification("Error creating agent!");
+            toast.error("Error creating agent!");
             console.error("Error creating agent:", err);
         }
     };
@@ -146,9 +93,9 @@ const AgentsPage = () => {
         try {
             await axios.delete(`http://localhost:3000/agents/${agent.bot_id}`, { withCredentials: true });
             setAgents((prev) => prev.filter((a) => a.bot_id !== agent.bot_id));
-            showToastNotification(`Agent "${agent.name}" deleted!`, "success");
+            toast.success(`Agent "${agent.name}" deleted!`);
         } catch (err) {
-            showToastNotification("Error deleting agent!", "error");
+            toast.error("Error deleting agent!");
             console.error("Error deleting agent:", err);
         }
         setDeleteModal({ open: false, agent: null });
@@ -161,9 +108,9 @@ const AgentsPage = () => {
         try {
             await axios.delete(`http://localhost:3000/agents/${agent.bot_id}`, { withCredentials: true });
             setAgents((prev) => prev.filter((a) => a.bot_id !== agent.bot_id));
-            showToastNotification(`Agent "${agent.name}" deleted!`, "success");
+            toast.success(`Agent "${agent.name}" deleted!`);
         } catch (err) {
-            showToastNotification("Error deleting agent!", "error");
+            toast.error("Error deleting agent!");
             console.error("Error deleting agent:", err);
         }
     };
@@ -184,10 +131,6 @@ const AgentsPage = () => {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="flex-1 ml-6 p-6 flex flex-col items-center bg-white/90 backdrop-blur-sm rounded-2xl border border-blue-100 shadow-xl min-h-0 overflow-hidden"
             >
-                {/* Toast */}
-                <AnimatePresence>
-                    <Toast show={showToast} type={toastType} message={toastMessage} />
-                </AnimatePresence>
                 <div className="w-full flex items-center justify-between border-b pb-4 border-blue-100">
                     <h1 className="text-2xl font-extrabold  flex items-center gap-2 bg-gradient-to-r from-blue-700 via-indigo-700 to-cyan-600 bg-clip-text text-transparent">
                         <Sparkles className="text-blue-400" /> All Agents

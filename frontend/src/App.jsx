@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import KnowledgeBasePage from "./pages/KnowledgeBasePage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from './pages/SignupPage';
 import ProfilePage from "./pages/ProfilePage";
-import AgentsPage from "./pages/AgentsPage"; // <-- create this file
+import AgentsPage from "./pages/AgentsPage";
 import AgentEditPage from "./pages/AgentEditPage";
 
 const App = () => {
@@ -17,8 +17,12 @@ const App = () => {
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="agent/:bot_id" element={<AgentEditPage />} />
+
+        {/* Redirect "/" to "/agents" */}
+        <Route path="/" element={<Navigate to="/agents" replace />} />
+
         {/* Private Routes (Wrapped in Layout) */}
-        <Route path="/" element={<Layout />}>
+        <Route element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="knowledge-base" element={<KnowledgeBasePage />} />
           <Route path="agents" element={<AgentsPage />} />
@@ -30,8 +34,8 @@ const App = () => {
           {/* Add more routes here */}
         </Route>
 
-        {/* Redirect unknown routes to Sign In */}
-        {/* <Route path="*" element={<Navigate to="/signin" replace />} /> */}
+        {/* (Optional) Catch-all: redirect any unknown path to /agents */}
+        <Route path="*" element={<Navigate to="/agents" replace />} />
       </Routes>
     </BrowserRouter>
   );
