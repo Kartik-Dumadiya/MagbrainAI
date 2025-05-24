@@ -39,7 +39,7 @@ const SignupForm = () => {
         theme: "colored",
       });
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = "/agents";
       }, 1500);
     } catch (error) {
       const errMsg =

@@ -35,7 +35,7 @@ const SigninForm = () => {
         theme: "colored",
       });
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = "/agents";
       }, 1500);
     } catch (error) {
       setError(
