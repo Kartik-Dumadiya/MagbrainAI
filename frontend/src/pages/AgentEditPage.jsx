@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import LLMChatPanel from "../components/LLMChatPanel";
 
 // Example model and language options
 const modelOptions = [
@@ -326,9 +328,9 @@ export default function AgentEditPage() {
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="w-[350px] bg-white px-5 py-6 flex flex-col items-center"
+          className="w-[480px] bg-white px-5 py-6 flex flex-col items-center"
         >
-          <TestAgentPanel />
+          <TestAgentPanel agent={agent}/>
         </motion.div>
       </div>
     </div>
@@ -409,12 +411,12 @@ function AgentAccordionSettings() {
 }
 
 // Test Panel
-function TestAgentPanel() {
+function TestAgentPanel( { agent}) {
   const [testActive, setTestActive] = useState(false);
   const [testMode, setTestMode] = useState('audio');
 
   return (
-    <div className="w-full h-full flex flex-col pt-6">
+    <div className="w-full h-full flex flex-col">
       <h2 className="text-lg font-semibold mb-4 text-slate-700">Test Your Agent</h2>
       <div className="mb-6 flex gap-2 w-full">
         <button 
@@ -438,80 +440,15 @@ function TestAgentPanel() {
         </button>
       </div>
       
-      <div className="flex-1 flex flex-col justify-center items-center p-8 border-2 border-dashed border-slate-200 rounded-lg bg-slate-50">
-        {testActive ? (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="flex flex-col items-center"
-          >
-            <div className="relative mb-6">
-              <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatType: "loop"
-                  }}
-                >
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-orange-500">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11V3"></path>
-                  </svg>
-                </motion.div>
-              </div>
-              <motion.div
-                className="absolute -inset-1"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.5, 0.3]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "loop"
-                }}
-              >
-                <div className="w-full h-full rounded-full bg-orange-400 opacity-20"></div>
-              </motion.div>
-            </div>
-            <p className="text-slate-700 font-medium">Recording in progress...</p>
-            <button 
-              onClick={() => setTestActive(false)} 
-              className="mt-6 px-6 py-2 bg-slate-100 hover:bg-slate-200 transition-colors duration-200 rounded-lg font-medium text-slate-700"
-            >
-              Stop Test
-            </button>
-          </motion.div>
+      <div className="flex-1 flex flex-col justify-center items-center p-2 border-2 border-dashed border-slate-200 rounded-lg bg-slate-50 h-full">
+        {testMode === 'llm' ? (
+          <LLMChatPanel agent={agent} />
+        ) : testActive ? (
+          // ... your existing audio test code ...
+          <motion.div> ... </motion.div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center"
-          >
-            <motion.span 
-              className="text-6xl mb-3 opacity-70"
-              whileHover={{ scale: 1.1, rotate: [0, -5, 5, -5, 0] }}
-              transition={{ duration: 0.5 }}
-            >
-              {testMode === 'audio' ? '🎤' : '💬'}
-            </motion.span>
-            <div className="mb-4 font-medium text-slate-700 text-center">
-              {testMode === 'audio' 
-                ? "Test your agent's voice capabilities" 
-                : "Test your agent's text responses"}
-            </div>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setTestActive(true)}
-              className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white transition-colors duration-200 rounded-lg font-medium shadow-sm"
-            >
-              Start Test
-            </motion.button>
-          </motion.div>
+          // ... your existing non-active audio test UI ...
+          <motion.div> ... </motion.div>
         )}
       </div>
     </div>
