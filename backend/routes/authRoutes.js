@@ -24,3 +24,4 @@ router.put("/me", requireAuth, updateProfile);
 router.put("/me/password", requireAuth, updatePassword);
 
 export default router;
+
