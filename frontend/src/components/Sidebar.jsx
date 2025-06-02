@@ -11,7 +11,7 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { useUser } from "../context/userContext";
+import { useUser } from "../context/UserContext";
 import profile from "../assets/profile.png";
 
 const menuItems = [
