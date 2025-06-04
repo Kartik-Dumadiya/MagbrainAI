@@ -7,7 +7,7 @@ import SigninPage from "./pages/SigninPage";
 import SignupPage from './pages/SignupPage';
 import ProfilePage from "./pages/ProfilePage";
 import AgentsPage from "./pages/AgentsPage";
-import AgentEditPage from "./pages/AgentEditPage";
+import AgentPageRouter from "./pages/AgentPageRouter";
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="agent/:bot_id" element={<AgentEditPage />} />
+        <Route path="agent/:bot_id" element={<AgentPageRouter />} />
 
         {/* Redirect "/" to "/agents" */}
         <Route path="/" element={<Navigate to="/agents" replace />} />

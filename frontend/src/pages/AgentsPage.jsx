@@ -70,6 +70,14 @@ const AgentsPage = () => {
                 agentData.welcome_message = "Hello, I have a notification for you.";
             }
         }
+
+        if (agentType === "conversation-flow") {
+            if (templateKey === "blank") {
+                agentData.name = "conversation-flow Agent";
+                agentData.prompt = "";
+                agentData.welcome_message = "User Initiates: AI remains silent until users speak first.";
+            }
+        }
         // Add similar logic for multi-prompt, conversation-flow as needed
 
         try {
@@ -115,9 +123,9 @@ const AgentsPage = () => {
         }
     };
     useEffect(() => {
-        axios
+            axios
             .get("http://localhost:3000/agents", { withCredentials: true })
-            .then((res) => setAgents(res.data.agents))
+            .then((res) =>setAgents(res.data.agents))
             .finally(() => setLoading(false));
     }, []);
 

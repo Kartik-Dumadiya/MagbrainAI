@@ -35,7 +35,7 @@ const colors = {
   error: "#ef4444",
 };
 
-export default function AgentEditPage() {
+export default function SinglePromptAgentPage() {
   const { bot_id } = useParams();
   const navigate = useNavigate();
   const [agent, setAgent] = useState(null);

@@ -57,7 +57,7 @@ const AgentList = ({ agents, loading, searchQuery = "", onDelete }) => {
     e.stopPropagation();
     setMenuOpen(null);
     onDelete?.(agent);
-    
+
   };
 
   return (
@@ -89,8 +89,10 @@ const AgentList = ({ agents, loading, searchQuery = "", onDelete }) => {
           ) : (
             agents
               .filter(agent => agent.name?.toLowerCase().includes(searchQuery.toLowerCase()))
-              .map((agent, idx) => (
-                <tr
+              .map((agent, idx, arr) => {
+                const isDropUp = idx >= arr.length - 1;
+
+                return <tr
                   key={agent.bot_id || idx}
                   className="transition hover:bg-amber-300 border-b cursor-pointer"
                   style={{
@@ -142,15 +144,17 @@ const AgentList = ({ agents, loading, searchQuery = "", onDelete }) => {
                       onClick={e => handleMenuClick(e, idx)}
                     >
                       <svg width="18" height="18" fill="none" viewBox="0 0 20 20">
-                        <circle cx="10" cy="4.5" r="1.5" fill="#6B7280"/>
-                        <circle cx="10" cy="10" r="1.5" fill="#6B7280"/>
-                        <circle cx="10" cy="15.5" r="1.5" fill="#6B7280"/>
+                        <circle cx="10" cy="4.5" r="1.5" fill="#6B7280" />
+                        <circle cx="10" cy="10" r="1.5" fill="#6B7280" />
+                        <circle cx="10" cy="15.5" r="1.5" fill="#6B7280" />
                       </svg>
                     </button>
                     {/* Dropdown Menu */}
                     {menuOpen === idx && (
                       <div
-                        className="absolute right-2 z-10 mt-2 min-w-[120px] bg-white border border-gray-200 rounded-lg shadow-lg py-1"
+                        className={`absolute right-2 z-10 min-w-[120px] bg-white border border-gray-200 rounded-lg shadow-lg py-1
+              ${isDropUp ? "bottom-10 mb-2" : "mt-2"}`}
+                        style={isDropUp ? { bottom: "2.5rem", top: "auto" } : { top: "2.5rem", bottom: "auto" }}
                         onClick={e => e.stopPropagation()}
                       >
                         <button
@@ -163,7 +167,7 @@ const AgentList = ({ agents, loading, searchQuery = "", onDelete }) => {
                     )}
                   </td>
                 </tr>
-              ))
+              })
           )}
         </tbody>
       </table>
