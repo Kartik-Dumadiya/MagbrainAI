@@ -24,6 +24,7 @@
     "react-toastify": "^11.0.5",
     "react-transition-group": "^4.4.5",
     "reactflow": "^11.11.4",
+    "refractor": "^3.6.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.1.6",
