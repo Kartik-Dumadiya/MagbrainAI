@@ -33,3 +33,15 @@
   background: #f1f5f9;
   border-radius: 8px;
 }
+
+:root {
+  --bg-white-0: #fff;
+  --bg-weak-50: #F3F4F6;
+  --stroke-strong-950: #0E121B;
+  --state-highlighted-dark: #0E121B;
+  --text-soft-400: #6B7280;
+  --text-sub-600: #6B7280;
+  --ring: #2563EB;
+  --text-error-600: #DC2626;
+  --icon-sub-600: #6B7280;
+}

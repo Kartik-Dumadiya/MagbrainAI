@@ -6,7 +6,7 @@ import ReactFlow, {
   ReactFlowProvider,
   applyNodeChanges,
   applyEdgeChanges,
-  useReactFlow
+  useReactFlow,
 } from "reactflow";
 import ConversationNode from "./NodeTypes/ConversationNode";
 import FunctionNode from "./NodeTypes/FunctionNode";
@@ -21,7 +21,7 @@ const nodeTypes = {
   function: FunctionNode,
   logic: LogicSplitNode,
   ending: EndingNode,
-  begin: BeginNode
+  begin: BeginNode,
 };
 
 function FlowCanvasInner() {
@@ -30,16 +30,11 @@ function FlowCanvasInner() {
   const hasFitted = useRef(false);
 
   useEffect(() => {
-    if (
-      !hasFitted.current &&
-      nodes &&
-      nodes.length > 1 
-    ) {
-      fitView({ padding: 1 });
+    if (!hasFitted.current && nodes && nodes.length > 1) {
+      fitView({ padding: 0.2, duration: 800 });
       hasFitted.current = true;
     }
   }, [nodes, fitView]);
-
 
   const onNodesChange = useCallback(
     (changes) => {
@@ -57,11 +52,15 @@ function FlowCanvasInner() {
 
   const onConnect = useCallback(
     (params) => {
+      const { source, sourceHandle, target, targetHandle } = params;
       const edge = {
-        id: `e-${params.source}-${params.target}`,
-        source: params.source,
-        target: params.target,
+        id: `e-${source}-${sourceHandle || "default"}-${target}-${targetHandle || "default"}`,
+        source,
+        sourceHandle: sourceHandle || null,
+        target,
+        targetHandle: targetHandle || null,
         animated: true,
+        style: { stroke: "#0E121B", strokeWidth: 1.5 },
       };
       addEdge(edge);
     },
@@ -79,8 +78,9 @@ function FlowCanvasInner() {
     setSelectedNodeId(null);
   }, [setSelectedNodeId]);
 
+
   return (
-    <div className="flex-1 h-full bg-gradient-to-br from-indigo-50 to-cyan-50">
+    <div className="flex-1 h-full bg-gray-100">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -91,26 +91,18 @@ function FlowCanvasInner() {
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
         fitView
-        fitViewOptions={{ padding: 8 }}
-        defaultEdgeOptions={{ animated: true }}
+        fitViewOptions={{ padding: 0.2 }}
+        defaultEdgeOptions={{
+          animated: true,
+          style: { stroke: "#0E121B", strokeWidth: 1.5 },
+        }}
       >
-        <MiniMap
-          nodeColor={(node) => {
-            switch (node.type) {
-              case "conversation": return "#ec4899";
-              case "function": return "#64748b";
-              case "logic": return "#2563eb";
-              case "ending": return "#f43f5e";
-              case "begin": return "#10b981";
-              default: return "#6b7280";
-            }
-          }}
-          nodeStrokeWidth={2}
-          zoomable
-          pannable
+
+        <Controls
+          // Tailwind: bg-white, border, border-gray-900, rounded
+          className="bg-white, border, border-gray-900, rounded"
         />
-        <Controls />
-        <Background variant="dots" gap={16} size={1} />
+        <Background variant="dots" gap={16} size={1} color="#6B7280" />
       </ReactFlow>
     </div>
   );

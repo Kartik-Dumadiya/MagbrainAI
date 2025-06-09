@@ -6,10 +6,8 @@ import { UserProvider } from './context/UserContext.jsx'
 import { ToastContainer } from 'react-toastify'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <UserProvider>
       <App />
       <ToastContainer />
     </UserProvider>
-  </StrictMode>,
 )

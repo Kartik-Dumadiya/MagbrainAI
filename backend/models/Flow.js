@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 
 const NodeSchema = new mongoose.Schema({
-  id: String,
-  type: String,
-  position: { x: Number, y: Number },
+  id: { type: String, required: true },
+  type: { type: String, required: true },
+  position: { x: { type: Number, required: true }, y: { type: Number, required: true } },
   data: mongoose.Schema.Types.Mixed,
 }, { _id: false });
 
 const EdgeSchema = new mongoose.Schema({
-  id: String,
-  source: String,
-  target: String,
-  label: String,
+  id: { type: String, required: true },
+  source: { type: String, required: true },
+  target: { type: String, required: true },
+  sourceHandle: { type: String, required: false },
+  targetHandle: { type: String, required: false },
+  animated: { type: Boolean, default: false },
+  label: { type: String, required: false },
 }, { _id: false });
 
 const FlowSchema = new mongoose.Schema({
@@ -19,11 +22,11 @@ const FlowSchema = new mongoose.Schema({
   nodes: [NodeSchema],
   edges: [EdgeSchema],
   metadata: {
-    voice: String,
-    language: String,
-    globalPrompt: String,
+    voice: { type: String, default: "English" },
+    language: { type: String, default: "English" },
+    globalPrompt: { type: String, default: "" },
   },
-  agentId: { type: String, required: true }, // link to agent.bot_id
+  agentId: { type: String, required: true },
 }, { timestamps: true });
 
 export default mongoose.model("Flow", FlowSchema);
