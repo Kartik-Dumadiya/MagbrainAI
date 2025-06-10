@@ -11,7 +11,6 @@ import { Search, Upload, Sparkles } from "lucide-react";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import { toast } from 'react-toastify';
 
-
 const AgentsPage = () => {
     const [agents, setAgents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,9 +18,6 @@ const AgentsPage = () => {
     const [templateModal, setTemplateModal] = useState({ open: false, agentType: "single-prompt" });
     const [searchQuery, setSearchQuery] = useState("");
     const [deleteModal, setDeleteModal] = useState({ open: false, agent: null });
-
-
-    
 
     // Open modal to create agent
     const handleCreateAgent = (type) => {
@@ -122,10 +118,17 @@ const AgentsPage = () => {
             console.error("Error deleting agent:", err);
         }
     };
+
     useEffect(() => {
-            axios
+        axios
             .get(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/agents`, { withCredentials: true })
-            .then((res) =>setAgents(res.data.agents))
+            .then((res) => {
+                setAgents(res.data.agents || []); // Fallback to empty array if res.data.agents is undefined
+            })
+            .catch((error) => {
+                console.error("Error fetching agents:", error);
+                setAgents([]); // Set to empty array on error
+            })
             .finally(() => setLoading(false));
     }, []);
 
