@@ -26,9 +26,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/auth", authRoutes);
-app.use("/agents", agentRoutes);
-app.use("/flows", flowRoutes);
+app.use("api/auth", authRoutes);
+app.use("api/agents", agentRoutes);
+app.use("api/flows", flowRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
