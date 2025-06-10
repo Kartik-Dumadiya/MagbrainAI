@@ -7,3 +7,4 @@ const server = createServer(app);
 export default function handler(req, res) {
   proxy(server, req, res);
 }
+

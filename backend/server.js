@@ -15,7 +15,7 @@ const app = express();
 const FRONTEND_ORIGIN = "https://magbrainai-frontend.vercel.app";
 
 app.use(cors({
-  origin: process.env.VITE_API_URL || FRONTEND_ORIGIN,
+  origin: FRONTEND_ORIGIN,
   credentials: true,
 }));
 // app.options('*', cors({
