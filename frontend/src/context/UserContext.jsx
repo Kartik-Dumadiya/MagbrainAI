@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/auth/me", { withCredentials: true });
+            const res = await axios.get(`${process.env.VITE_API_URL || "http://localhost:3000"}/auth/me`, { withCredentials: true });
             setUser(res.data.user);
         } catch (err) {
             if (err.response && err.response.status === 401) {
