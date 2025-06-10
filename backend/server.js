@@ -15,13 +15,13 @@ const app = express();
 const FRONTEND_ORIGIN = "https://magbrainai-frontend.vercel.app";
 
 app.use(cors({
-  origin: FRONTEND_ORIGIN,
+  origin: "https://magbrainai-frontend.vercel.app",
   credentials: true,
 }));
-app.options('*', cors({
-  origin: FRONTEND_ORIGIN,
-  credentials: true,
-}));
+// app.options('*', cors({
+//   origin: FRONTEND_ORIGIN,
+//   credentials: true,
+// }));
 
 app.use(express.json());
 app.use(cookieParser());
