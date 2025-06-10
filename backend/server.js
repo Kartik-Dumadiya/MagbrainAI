@@ -12,8 +12,17 @@ import flowRoutes from "./routes/flowRoutes.js";
 
 const app = express();
 
-app.use(cors({ origin: 'https://magbrainai-frontend.vercel.app' , credentials: true }));
-// console.log("CORS enabled for origin:", process.env.VITE_API_URL || "http://localhost:5173");
+const FRONTEND_ORIGIN = "https://magbrainai-frontend.vercel.app";
+
+app.use(cors({
+  origin: FRONTEND_ORIGIN,
+  credentials: true,
+}));
+app.options('*', cors({
+  origin: FRONTEND_ORIGIN,
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -21,7 +30,11 @@ app.use(
     secret: process.env.SESSION_SECRET || "TOPSECRETWORD",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000,
+    },
   })
 );
 app.use(passport.initialize());
