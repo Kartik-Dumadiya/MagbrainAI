@@ -11,9 +11,9 @@ import "../transition.css";
 import { ToastContainer } from "react-toastify";
 
 const icons = [
-  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google", href: `${import.meta.env.VITE_API_URL}/auth/google` },
-  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub", href: `${import.meta.env.VITE_API_URL}/auth/github` },
-  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox", href: `${import.meta.env.VITE_API_URL}/auth/dropbox` },
+  { id: "google", light: googleLight, bold: googleBold, alt: "Sign up with Google", href: `${import.meta.env.VITE_API_URL}/api/auth/google` },
+  { id: "github", light: githubLight, bold: githubBold, alt: "Sign up with GitHub", href: `${import.meta.env.VITE_API_URL}/api/auth/github` },
+  { id: "dropbox", light: dropboxLight, bold: dropboxBold, alt: "Sign up with Dropbox", href: `${import.meta.env.VITE_API_URL}/api/auth/dropbox` },
 ];
 
 const SignupPage = () => {
