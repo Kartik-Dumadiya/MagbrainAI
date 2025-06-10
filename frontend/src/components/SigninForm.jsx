@@ -20,7 +20,7 @@ const SigninForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.VITE_API_URL || "http://localhost:3000"}/auth/login`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth/login`,
         formData,
         { withCredentials: true }
       );

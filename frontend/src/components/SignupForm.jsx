@@ -29,7 +29,7 @@ const SignupForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.VITE_API_URL || "http://localhost:3000"}/auth/signup`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth/signup`,
         formData,
         { withCredentials: true }
       );

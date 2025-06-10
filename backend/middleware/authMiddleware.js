@@ -6,7 +6,7 @@ export const requireAuth = async (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Not authenticated" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, import.meta.env.JWT_SECRET);
     req.user = await User.findById(decoded.id).select("-password"); // do not expose hash
     if (!req.user) return res.status(401).json({ error: "User not found" });
     next();

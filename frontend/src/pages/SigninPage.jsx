@@ -17,21 +17,21 @@ const icons = [
     light: googleLight,
     bold: googleBold,
     alt: "Sign in with Google",
-    href: `${process.env.VITE_API_URL || "http://localhost:3000"}/auth/google`,
+    href: `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth/google`,
   },
   {
     id: "github",
     light: githubLight,
     bold: githubBold,
     alt: "Sign in with GitHub",
-    href: `${process.env.VITE_API_URL || "http://localhost:3000"}/auth/github`,
+    href: `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth/github`,
   },
   {
     id: "dropbox",
     light: dropboxLight,
     bold: dropboxBold,
     alt: "Sign in with Dropbox",
-    href: `${process.env.VITE_API_URL || "http://localhost:3000"}/auth/dropbox`,
+    href: `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/auth/dropbox`,
   },
 ];
 
