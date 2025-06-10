@@ -12,7 +12,7 @@ import flowRoutes from "./routes/flowRoutes.js";
 
 const app = express();
 
-app.use(cors({ origin: 'https://magbrain-ai.vercel.app/magbrain-backend.vercel.app' , credentials: true }));
+app.use(cors({ origin: 'https://magbrainai-frontend.vercel.app' , credentials: true }));
 // console.log("CORS enabled for origin:", process.env.VITE_API_URL || "http://localhost:5173");
 app.use(express.json());
 app.use(cookieParser());
